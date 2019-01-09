@@ -31,48 +31,52 @@ public class EchoServer {
 			serverSocket.bind(new InetSocketAddress(inetLocalAddress, SERVER_PORT));
 			System.out.println("[server] binding " + inetLocalAddress + ":" + SERVER_PORT);
 			
-			Socket socket = serverSocket.accept();
-		
-			InetAddress socketIPAddress = socket.getInetAddress();
-			int socketPORT = socket.getLocalPort();
-			System.out.println("[client] " + socketIPAddress + ":" + socketPORT);
-
-			try
+			while (true)
 			{
-				InputStream is = socket.getInputStream();
-				InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-				BufferedReader br = new BufferedReader(isr);
-				
-				OutputStream os = socket.getOutputStream();
-				OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-				PrintWriter pw = new PrintWriter(osw, true);
-				
-				while (true)
-				{
-					String value = br.readLine();
-					if (value.equals(""))
-						break;
-					pw.println(value);
-				}			
+				Socket socket = serverSocket.accept();
+				Thread thread = new EchoServerReceiveThread(socket);
+				thread.start();
 			}
-			catch (Exception e) 
-			{
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-			finally 
-			{
-				try
-				{
-
-					if (socket != null && !socket.isClosed())
-						socket.close();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-			}
+//			InetAddress socketIPAddress = socket.getInetAddress();
+//			int socketPORT = socket.getLocalPort();
+//			System.out.println("[client] " + socketIPAddress + ":" + socketPORT);
+//
+//			try
+//			{
+//				InputStream is = socket.getInputStream();
+//				InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+//				BufferedReader br = new BufferedReader(isr);
+//				
+//				OutputStream os = socket.getOutputStream();
+//				OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+//				PrintWriter pw = new PrintWriter(osw, true);
+//				
+//				while (true)
+//				{
+//					String value = br.readLine();
+//					if (value.equals(""))
+//						break;
+//					pw.println(value);
+//				}			
+//			}
+//			catch (Exception e) 
+//			{
+//				// TODO: handle exception
+//				e.printStackTrace();
+//			}
+//			finally 
+//			{
+//				try
+//				{
+//
+//					if (socket != null && !socket.isClosed())
+//						socket.close();
+//				}
+//				catch (IOException e)
+//				{
+//					e.printStackTrace();
+//				}
+//			}
 		} 
 	
 		catch (IOException e) 

@@ -40,11 +40,13 @@ public class EchoClient {
 				
 				String receive = br.readLine();
 				if (receive == null)
+				{
 					break;
-				System.out.println("<<" + receive);
+				}
+				System.out.println("<< " + Thread.currentThread().getId() + " " + receive);
 			}
 			
-		} 
+		}
 		catch (IOException e) 
 		{
 			e.printStackTrace();
