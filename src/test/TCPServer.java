@@ -61,6 +61,12 @@ public class TCPServer
 						System.out.println("[server] received: " + data);
 						
 						// 6. 데이터 쓰기
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						os.write(data.getBytes("UTF-8"));
 					
 				}
